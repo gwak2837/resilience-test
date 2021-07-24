@@ -1,4 +1,5 @@
-import { Progress } from 'antd'
+import { QuestionCircleOutlined } from '@ant-design/icons'
+import { Progress, Popover } from 'antd'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { PrimaryButton } from 'src/components/atoms/Button'
@@ -145,34 +146,94 @@ function TestResultPage() {
               <div>
                 <div>자기 조절 능력: {data.selfControlScore} (성인 평균 63.5점)</div>
                 <div>{data.selfControlContent}</div>
-                감정조절력 {data.emotionalControlScore}점 압박과 스트레스 상황에서도 평온을 유지할
-                수 있는 능력 <br />
-                충동통제력 {data.impulseControlScore}점 자신의 동기를 스스로 부여하고 조절할 수 있는
-                능력 <br />
-                원인분석력 {data.causeAnalysisScore}점 문제를 긍정적으로 바라보고 해결책을 정확히
-                진단해 내는 능력
+                <Popover
+                  content="압박과 스트레스 상황에서도 평온을 유지할 수 있는 능력"
+                  trigger="click"
+                >
+                  <div>
+                    감정조절력
+                    <QuestionCircleOutlined /> {data.emotionalControlScore}점
+                  </div>
+                </Popover>
+                <Popover
+                  content="자신의 동기를 스스로 부여하고 조절할 수 있는 능력"
+                  trigger="click"
+                >
+                  <div>
+                    충동통제력
+                    <QuestionCircleOutlined /> {data.impulseControlScore}점
+                  </div>
+                </Popover>
+                <Popover
+                  content="문제를 긍정적으로 바라보고 해결책을 정확히 진단해 내는 능력"
+                  trigger="click"
+                >
+                  <div>
+                    원인분석력
+                    <QuestionCircleOutlined /> {data.causeAnalysisScore}점
+                  </div>
+                </Popover>
               </div>
               <br />
               <div>
                 <div>대인 관계 능력: {data.interpersonalAbilityScore} (성인 평균 67.8점)</div>
                 <div>{data.interpersonalAbilityContent}</div>
-                소통능력 {data.communicationScore}점 인간관계를 진지하게 맺고 오래도록 유지하는 능력
-                <br />
-                공감능력 {data.empathyScore}점 다른 사람의 심리나 감정상태를 잘 읽어낼 수 있는 능력{' '}
-                <br />
-                자아확장력 {data.selfExtensionScore}점 자기 자신이 다른 사람과 연결되어 있다고
-                느끼는 정도
+                <Popover content="인간관계를 진지하게 맺고 오래도록 유지하는 능력" trigger="click">
+                  <div>
+                    소통능력
+                    <QuestionCircleOutlined /> {data.communicationScore}점
+                  </div>
+                </Popover>
+                <Popover
+                  content="다른 사람의 심리나 감정상태를 잘 읽어낼 수 있는 능력"
+                  trigger="click"
+                >
+                  <div>
+                    공감능력
+                    <QuestionCircleOutlined /> {data.empathyScore}점
+                  </div>
+                </Popover>
+                <Popover
+                  content="자기 자신이 다른 사람과 연결되어 있다고 느끼는 정도"
+                  trigger="click"
+                >
+                  <div>
+                    자아확장력
+                    <QuestionCircleOutlined /> {data.selfExtensionScore}점
+                  </div>
+                </Popover>
               </div>
               <br />
               <div>
                 <div>긍정성: {data.affirmativeScore} (성인 평균 63.4점)</div>
                 <div>{data.affirmativeContent}</div>
-                자아낙관성 {data.selfOptimismScore}점 주어진 상황은 언젠간 좋아지리라는 믿음을
-                지니는 정도 <br />
-                생활만족도 {data.lifeSatisfactionScore}점 자신이 잘 할 수 있는 일을 통해 즐거움과
-                성취, 보람을 느끼는 정도 <br />
-                감사하기 {data.appreciationScore}점 매사에 감사하는 마음을 갖는 정도 (긍정심리학의
-                최상위)
+                <Popover
+                  content="주어진 상황은 언젠간 좋아지리라는 믿음을 지니는 정도"
+                  trigger="click"
+                >
+                  <div>
+                    자아낙관성
+                    <QuestionCircleOutlined /> {data.selfOptimismScore}점
+                  </div>
+                </Popover>
+                <Popover
+                  content="자신이 잘 할 수 있는 일을 통해 즐거움과 성취, 보람을 느끼는 정도"
+                  trigger="click"
+                >
+                  <div>
+                    생활만족도
+                    <QuestionCircleOutlined /> {data.lifeSatisfactionScore}점
+                  </div>
+                </Popover>
+                <Popover
+                  content="매사에 감사하는 마음을 갖는 정도 (긍정심리학의 최상위)"
+                  trigger="click"
+                >
+                  <div>
+                    감사하기
+                    <QuestionCircleOutlined /> {data.appreciationScore}점
+                  </div>
+                </Popover>
               </div>
             </>
           ) : error ? (
