@@ -16,12 +16,17 @@ const Padding2 = styled.div`
   padding: 2rem;
 `
 
-const ScoreName = styled.h2`
+const Score = styled.h3`
   text-align: center;
-  font-size: 4rem;
+  font-size: 3rem;
 `
 
-const ScoreContent = styled.h4`
+const ScoreName = styled.h3`
+  text-align: center;
+  font-size: 2rem;
+`
+
+const ScoreContent = styled.p`
   text-align: center;
   padding: 0 1rem;
 `
@@ -79,13 +84,13 @@ function compareScoreWithAverage(score: number) {
 
 const description = '회복 탄력성 검사 결과를 확인해보세요.'
 
-const answers = [...new Array(53).keys()].map((i) => ({
-  questionId: `${i}`,
-  answer: 3,
-}))
+// const answers = [...new Array(53).keys()].map((i) => ({
+//   questionId: `${i}`,
+//   answer: 3,
+// }))
 
 function TestResultPage() {
-  // const { answers } = useContext(GlobalContext)
+  const { answers } = useContext(GlobalContext)
 
   const goToTestPage = useGoToPage(`/test`)
 
@@ -125,18 +130,50 @@ function TestResultPage() {
             <>
               <Padding2>
                 <Progress
-                  format={() => `${Math.round((data.score * 100) / (53 * 5))}%`}
-                  percent={(data.score * 100) / (53 * 5)}
+                  format={() => `${Math.round((data.score * 100) / 265)}%`}
+                  percent={(data.score * 100) / 265}
                   status="active"
                   strokeColor={gradientBlueGreen}
                 />
               </Padding2>
-
-              <ScoreName>
-                {data.scoreName} {data.score}점
-              </ScoreName>
-              <span style={{ textAlign: 'center' }}>{compareScoreWithAverage(data.score)}</span>
+              <Score>{data.score}점</Score>
+              <div style={{ textAlign: 'center' }}>{compareScoreWithAverage(data.score)}</div>
+              <br />
+              <ScoreName>{data.scoreName}</ScoreName>
               <ScoreContent>{data.scoreContent}</ScoreContent>
+              <Padding2 />
+              <div>
+                <div>자기 조절 능력: {data.selfControlScore} (성인 평균 63.5점)</div>
+                <div>{data.selfControlContent}</div>
+                감정조절력 {data.emotionalControlScore}점 압박과 스트레스 상황에서도 평온을 유지할
+                수 있는 능력 <br />
+                충동통제력 {data.impulseControlScore}점 자신의 동기를 스스로 부여하고 조절할 수 있는
+                능력 <br />
+                원인분석력 {data.causeAnalysisScore}점 문제를 긍정적으로 바라보고 해결책을 정확히
+                진단해 내는 능력
+              </div>
+              <br />
+              <div>
+                <div>대인 관계 능력: {data.interpersonalAbilityScore} (성인 평균 67.8점)</div>
+                <div>{data.interpersonalAbilityContent}</div>
+                소통능력 {data.communicationScore}점 인간관계를 진지하게 맺고 오래도록 유지하는 능력
+                <br />
+                공감능력 {data.empathyScore}점 다른 사람의 심리나 감정상태를 잘 읽어낼 수 있는 능력{' '}
+                <br />
+                자아확장력 {data.selfExtensionScore}점 자기 자신이 다른 사람과 연결되어 있다고
+                느끼는 정도
+              </div>
+              <br />
+              <div>
+                <div>긍정성: {data.affirmativeScore} (성인 평균 63.4점)</div>
+                <div>{data.affirmativeContent}</div>
+                자아낙관성 {data.selfOptimismScore}점 주어진 상황은 언젠간 좋아지리라는 믿음을
+                지니는 정도 <br />
+                생활만족도 {data.lifeSatisfactionScore}점 자신이 잘 할 수 있는 일을 통해 즐거움과
+                성취, 보람을 느끼는 정도 <br />
+                감사하기 {data.appreciationScore}점 매사에 감사하는 마음을 갖는 정도 (긍정심리학의
+                최상위)
+              </div>
             </>
           ) : error ? (
             '네트워크 요청 오류'

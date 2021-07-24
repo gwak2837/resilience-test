@@ -4,7 +4,7 @@ import { PRIMARY_BACKGROUND_COLOR } from 'src/models/constants'
 import { GOOGLE_ANALYTICS_TRACKING_ID } from 'src/utils/google-analytics'
 import { ServerStyleSheet } from 'styled-components'
 
-export const canonicalUrl = 'https://resilience.vercel.app/'
+export const canonicalUrl = 'https://resilience1.vercel.app/'
 
 // 최대 10개
 const keywords = '회복,탄력성,검사'
