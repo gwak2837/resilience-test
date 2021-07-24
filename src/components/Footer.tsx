@@ -50,7 +50,7 @@ function Footer() {
         </h4>
         <div>
           <div>
-            <b>팀 (대표 : 곽태욱)</b>
+            <b>대표 : 곽태욱</b>
           </div>
           <div>
             <b>사업자등록번호 :</b> XXX-XX-XXXXX <button>사업자정보확인</button>

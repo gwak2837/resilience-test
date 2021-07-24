@@ -39,7 +39,7 @@ function TestPage() {
     onSuccess: (data) => {
       wasTestFetched.current = true
       setAnswers(
-        [...new Array(data.length).keys()].map((_, i) => ({ questionId: `${i}`, answer: null }))
+        [...new Array(data.length).keys()].map((i) => ({ questionId: `${i}`, answer: null }))
       )
     },
   })
@@ -68,12 +68,11 @@ function TestPage() {
         setSize(size + 1)
       }
     } else if (questionNumber === totalQuestionCount) {
-      router.push(`/test/result`)
-      // if (answers.every((answer) => answer.answer !== null)) {
-      //   router.push(`/test/result`)
-      // } else {
-      //   toast.warn('문제를 모두 풀어주세요')
-      // }
+      if (answers.every((answer) => answer.answer !== null)) {
+        router.push(`/test/result`)
+      } else {
+        toast.warn('문제를 모두 풀어주세요')
+      }
     }
   }
 

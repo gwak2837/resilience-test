@@ -79,8 +79,13 @@ function compareScoreWithAverage(score: number) {
 
 const description = '회복 탄력성 검사 결과를 확인해보세요.'
 
+const answers = [...new Array(53).keys()].map((i) => ({
+  questionId: `${i}`,
+  answer: 3,
+}))
+
 function TestResultPage() {
-  const { answers } = useContext(GlobalContext)
+  // const { answers } = useContext(GlobalContext)
 
   const goToTestPage = useGoToPage(`/test`)
 
@@ -92,6 +97,8 @@ function TestResultPage() {
     })
     return await response.json()
   })
+
+  console.log(answers)
 
   if (answers.length === 0) {
     return (
@@ -123,7 +130,7 @@ function TestResultPage() {
               <Padding2>
                 <Progress
                   format={() => `${Math.round((data.score * 100) / (53 * 5))}%`}
-                  percent={data.score / (53 * 5)}
+                  percent={(data.score * 100) / (53 * 5)}
                   status="active"
                   strokeColor={gradientBlueGreen}
                 />
@@ -132,8 +139,8 @@ function TestResultPage() {
               <ScoreName>
                 {data.scoreName} {data.score}점
               </ScoreName>
-              <ScoreContent>{data.scoreContent}</ScoreContent>
               <span style={{ textAlign: 'center' }}>{compareScoreWithAverage(data.score)}</span>
+              <ScoreContent>{data.scoreContent}</ScoreContent>
             </>
           ) : error ? (
             '네트워크 요청 오류'
