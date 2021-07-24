@@ -98,8 +98,6 @@ function TestResultPage() {
     return await response.json()
   })
 
-  console.log(answers)
-
   if (answers.length === 0) {
     return (
       <PageHead title="회복 탄력성 검사 - 결과" description={description}>
@@ -116,8 +114,6 @@ function TestResultPage() {
       </PageHead>
     )
   }
-
-  console.log(data)
 
   return (
     <PageHead title="회복 탄력성 검사 - 결과" description={description}>
