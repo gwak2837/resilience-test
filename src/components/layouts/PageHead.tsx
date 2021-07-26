@@ -12,7 +12,7 @@ type Props = {
 function PageHead({
   children,
   title = '회복 탄력성 검사',
-  description = '여러 회복 탄력성 검사를 제공하고 있어요',
+  description = '회복 탄력성 검사를 제공하고 있어요',
 }: Props) {
   const { pathname } = useRouter()
 

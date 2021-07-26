@@ -144,7 +144,15 @@ function TestResultPage() {
               <ScoreContent>{data.scoreContent}</ScoreContent>
               <Padding2 />
               <div>
-                <div>자기 조절 능력: {data.selfControlScore} (성인 평균 63.5점)</div>
+                <Popover
+                  content="감정조절력 + 충동통제력 + 원인분석력 (성인 평균 63.5점)"
+                  trigger="click"
+                >
+                  <div>
+                    자기 조절 능력
+                    <QuestionCircleOutlined /> {data.selfControlScore}점
+                  </div>
+                </Popover>
                 <div>{data.selfControlContent}</div>
                 <Popover
                   content="압박과 스트레스 상황에서도 평온을 유지할 수 있는 능력"
@@ -176,7 +184,15 @@ function TestResultPage() {
               </div>
               <br />
               <div>
-                <div>대인 관계 능력: {data.interpersonalAbilityScore} (성인 평균 67.8점)</div>
+                <Popover
+                  content="소통능력 + 공감능력 + 자아확장력 (성인 평균 67.8점)"
+                  trigger="click"
+                >
+                  <div>
+                    대인 관계 능력
+                    <QuestionCircleOutlined /> {data.interpersonalAbilityScore}점
+                  </div>
+                </Popover>
                 <div>{data.interpersonalAbilityContent}</div>
                 <Popover content="인간관계를 진지하게 맺고 오래도록 유지하는 능력" trigger="click">
                   <div>
@@ -205,7 +221,15 @@ function TestResultPage() {
               </div>
               <br />
               <div>
-                <div>긍정성: {data.affirmativeScore} (성인 평균 63.4점)</div>
+                <Popover
+                  content="자아낙관성 + 생활만족도 + 감사하기 (성인 평균 63.4점)"
+                  trigger="click"
+                >
+                  <div>
+                    긍정성
+                    <QuestionCircleOutlined /> {data.affirmativeScore}점
+                  </div>
+                </Popover>
                 <div>{data.affirmativeContent}</div>
                 <Popover
                   content="주어진 상황은 언젠간 좋아지리라는 믿음을 지니는 정도"
