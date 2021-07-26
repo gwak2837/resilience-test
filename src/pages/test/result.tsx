@@ -110,9 +110,10 @@ function TestResultPage() {
         objectType: 'text',
         text: '회복 탄력성 검사 결과를 확인할 수 있어요',
         link: {
-          webUrl: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/test/result?${encodeURI(
-            JSON.stringify(data)
-          )}`,
+          webUrl:
+            process.env.NODE_ENV === 'production'
+              ? `https://resilience1.vercel.app/test/result?${encodeURI(JSON.stringify(data))}`
+              : `http://localhost:3000/test/result?${encodeURI(JSON.stringify(data))}`,
         },
         buttonTitle: '검사 결과 보기',
       })
