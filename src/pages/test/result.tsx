@@ -110,7 +110,7 @@ function TestResultPage() {
         objectType: 'text',
         text: '회복 탄력성 검사 결과를 확인할 수 있어요',
         link: {
-          webUrl: `http://${process.env.NEXT_PUBLIC_VERCEL_URL}/test/result?${encodeURI(
+          webUrl: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/test/result?${encodeURI(
             JSON.stringify(data)
           )}`,
         },
