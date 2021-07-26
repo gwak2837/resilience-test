@@ -128,6 +128,7 @@ export default class ResilienceTestDocument extends Document {
               />
             </>
           )}
+          <script defer src="https://developers.kakao.com/sdk/js/kakao.min.js" />
         </Head>
         <body>
           <Main />

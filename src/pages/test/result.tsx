@@ -2,7 +2,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons'
 import { Progress, Popover } from 'antd'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
-import { PrimaryButton } from 'src/components/atoms/Button'
+import { PrimaryButton, SecondaryButton } from 'src/components/atoms/Button'
 import { FlexContainerColumn, Padding } from 'src/components/atoms/Styles'
 import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import PageHead from 'src/components/layouts/PageHead'
@@ -11,7 +11,7 @@ import { GlobalContext, UserAnswers } from 'src/pages/_app'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import { Response } from 'src/pages/api/result'
-import { PRIMARY_TEXT_COLOR } from 'src/models/constants'
+import useQueryString from 'src/hooks/useQueryString'
 
 const Padding2 = styled.div`
   padding: 2rem;
@@ -32,35 +32,6 @@ const ScoreContent = styled.p`
   padding: 0 1rem;
 `
 
-const GradeText = styled.h3`
-  text-align: center;
-  font-size: 2rem;
-`
-
-const Table = styled.table`
-  width: 100%;
-
-  th,
-  td {
-    padding: 0.5rem;
-    text-align: center;
-    white-space: nowrap;
-    border: 2px solid ${PRIMARY_TEXT_COLOR};
-  }
-`
-
-const GreyDel = styled.s`
-  color: grey;
-`
-
-const Green = styled.div`
-  color: green;
-`
-
-const Red = styled.div`
-  color: red;
-`
-
 const FlexContainerColumnPadding = styled(FlexContainerColumn)`
   padding: 1rem;
 `
@@ -70,8 +41,8 @@ export const gradientBlueGreen = {
   '100%': '#87d068',
 }
 
-function fetchOnlyIfAnswersExist(answers: UserAnswers) {
-  if (answers.length === 0) return null
+function fetchConditionally(condition: boolean) {
+  if (!condition) return null
   return '/api/result'
 }
 
@@ -93,18 +64,28 @@ const description = '회복 탄력성 검사 결과를 확인해보세요.'
 function TestResultPage() {
   const { answers } = useContext(GlobalContext)
 
+  const queryString = useQueryString()
+
+  let testResultFromQueryString
+  try {
+    testResultFromQueryString = JSON.parse(decodeURI(queryString))
+  } catch (error) {}
+
   const goToTestPage = useGoToPage(`/test`)
 
-  const { data, error } = useSWR<Response>(fetchOnlyIfAnswersExist(answers), async (url) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ answers }),
-    })
-    return await response.json()
-  })
+  let { data, error } = useSWR<Response>(
+    fetchConditionally(!testResultFromQueryString && answers.length > 0),
+    async (url) => {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers }),
+      })
+      return await response.json()
+    }
+  )
 
-  if (answers.length === 0) {
+  if (!testResultFromQueryString && answers.length === 0) {
     return (
       <PageHead title="회복 탄력성 검사 - 결과" description={description}>
         <NavigationLayout>
@@ -121,6 +102,21 @@ function TestResultPage() {
     )
   }
 
+  data = testResultFromQueryString ?? data
+
+  function sendKakaoTalkMessage() {
+    if (data) {
+      ;(window as any).Kakao.Link.sendDefault({
+        objectType: 'text',
+        text: '회복 탄력성 검사 결과를 확인할 수 있어요',
+        link: {
+          webUrl: `https://resilience1.vercel.app/test/result?${encodeURI(JSON.stringify(data))}`,
+        },
+        buttonTitle: '검사 결과 보기',
+      })
+    }
+  }
+
   return (
     <PageHead title="회복 탄력성 검사 - 결과" description={description}>
       <NavigationLayout>
@@ -131,7 +127,7 @@ function TestResultPage() {
             <>
               <Padding2>
                 <Progress
-                  format={() => `${Math.round((data.score * 100) / 265)}%`}
+                  format={(percent) => `${Math.round(percent ?? 0)}%`}
                   percent={(data.score * 100) / 265}
                   status="active"
                   strokeColor={gradientBlueGreen}
@@ -268,6 +264,7 @@ function TestResultPage() {
         </Padding>
         <FlexContainerColumnPadding>
           <PrimaryButton onClick={goToTestPage}>다시 검사하기</PrimaryButton>
+          <SecondaryButton onClick={sendKakaoTalkMessage}>카카오톡 공유하기</SecondaryButton>
         </FlexContainerColumnPadding>
       </NavigationLayout>
     </PageHead>
