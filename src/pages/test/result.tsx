@@ -1,17 +1,17 @@
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { Progress, Popover } from 'antd'
-import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { PrimaryButton, SecondaryButton } from 'src/components/atoms/Button'
 import { FlexContainerColumn, Padding } from 'src/components/atoms/Styles'
 import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import PageHead from 'src/components/layouts/PageHead'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { GlobalContext, UserAnswers } from 'src/pages/_app'
+import { GlobalContext } from 'src/pages/_app'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import { Response } from 'src/pages/api/result'
 import useQueryString from 'src/hooks/useQueryString'
+import { toast } from 'react-toastify'
 
 const Padding2 = styled.div`
   padding: 2rem;
@@ -65,8 +65,7 @@ function TestResultPage() {
   const { answers } = useContext(GlobalContext)
 
   const queryString = useQueryString()
-
-  let testResultFromQueryString
+  let testResultFromQueryString: Response | undefined
   try {
     testResultFromQueryString = JSON.parse(decodeURI(queryString))
   } catch (error) {}
@@ -105,8 +104,12 @@ function TestResultPage() {
   data = testResultFromQueryString ?? data
 
   function sendKakaoTalkMessage() {
-    if (data) {
-      ;(window as any).Kakao.Link.sendDefault({
+    if (!data) {
+      toast.warn('아직 응답 결과가 없습니다.')
+    } else if (window.Kakao?.Link) {
+      toast.warn('카카오 API 인증에 실패했습니다.')
+    } else {
+      window.Kakao.Link.sendDefault({
         objectType: 'text',
         text: '회복 탄력성 검사 결과를 확인할 수 있어요',
         link: {
