@@ -56,13 +56,13 @@ function compareScoreWithAverage(score: number) {
 
 const description = '회복 탄력성 검사 결과를 확인해보세요.'
 
-const answers = [...new Array(53).keys()].map((i) => ({
-  questionId: `${i}`,
-  answer: 3,
-}))
+// const answers = [...new Array(53).keys()].map((i) => ({
+//   questionId: `${i}`,
+//   answer: 3,
+// }))
 
 function TestResultPage() {
-  // const { answers } = useContext(GlobalContext)
+  const { answers } = useContext(GlobalContext)
 
   const queryString = useQueryString()
 
