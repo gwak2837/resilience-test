@@ -13,8 +13,14 @@ import { Response } from 'src/pages/api/result'
 import useQueryString from 'src/hooks/useQueryString'
 import { toast } from 'react-toastify'
 
-const Padding2 = styled.div`
-  padding: 2rem;
+const Line = styled.div`
+  margin: 3rem 0;
+  padding: 2px;
+  background: #eee;
+`
+
+const Padding22 = styled.div`
+  padding: 2rem 0;
 `
 
 const Score = styled.h3`
@@ -22,14 +28,18 @@ const Score = styled.h3`
   font-size: 3rem;
 `
 
-const ScoreName = styled.h3`
+const CenterBigH3 = styled.h3`
   text-align: center;
   font-size: 2rem;
 `
 
-const ScoreContent = styled.p`
+const CenterH3 = styled.h3`
   text-align: center;
-  padding: 0 1rem;
+`
+
+const CenterPaddingP = styled.p`
+  text-align: center;
+  padding: 1rem;
 `
 
 const FlexContainerColumnPadding = styled(FlexContainerColumn)`
@@ -39,6 +49,11 @@ const FlexContainerColumnPadding = styled(FlexContainerColumn)`
 export const gradientBlueGreen = {
   '0%': '#108ee9',
   '100%': '#87d068',
+}
+
+const gradientVioletOrange = {
+  '0%': '#7a0886',
+  '100%': '#81663f',
 }
 
 function fetchConditionally(condition: boolean) {
@@ -56,13 +71,13 @@ function compareScoreWithAverage(score: number) {
 
 const description = '회복 탄력성 검사 결과를 확인해보세요.'
 
-// const answers = [...new Array(53).keys()].map((i) => ({
-//   questionId: `${i}`,
-//   answer: 3,
-// }))
+const answers = [...new Array(53).keys()].map((i) => ({
+  questionId: `${i}`,
+  answer: 3,
+}))
 
 function TestResultPage() {
-  const { answers } = useContext(GlobalContext)
+  // const { answers } = useContext(GlobalContext)
 
   const queryString = useQueryString()
   let testResultFromQueryString: Response | undefined
@@ -131,136 +146,139 @@ function TestResultPage() {
 
           {data ? (
             <>
-              <Padding2>
+              <Padding22>
                 <Progress
                   format={(percent) => `${Math.round(percent ?? 0)}%`}
                   percent={(data.score * 100) / 265}
                   status="active"
                   strokeColor={gradientBlueGreen}
                 />
-              </Padding2>
+              </Padding22>
               <Score>{data.score}점</Score>
               <div style={{ textAlign: 'center' }}>{compareScoreWithAverage(data.score)}</div>
               <br />
-              <ScoreName>{data.scoreName}</ScoreName>
-              <ScoreContent>{data.scoreContent}</ScoreContent>
-              <Padding2 />
-              <div>
-                <Popover
-                  content="감정조절력 + 충동통제력 + 원인분석력 (성인 평균 63.5점)"
-                  trigger="click"
-                >
-                  <div>
-                    자기 조절 능력
-                    <QuestionCircleOutlined /> {data.selfControlScore}점
-                  </div>
-                </Popover>
-                <div>{data.selfControlContent}</div>
-                <Popover
-                  content="압박과 스트레스 상황에서도 평온을 유지할 수 있는 능력"
-                  trigger="click"
-                >
-                  <div>
-                    감정조절력
-                    <QuestionCircleOutlined /> {data.emotionalControlScore}점
-                  </div>
-                </Popover>
-                <Popover
-                  content="자신의 동기를 스스로 부여하고 조절할 수 있는 능력"
-                  trigger="click"
-                >
-                  <div>
-                    충동통제력
-                    <QuestionCircleOutlined /> {data.impulseControlScore}점
-                  </div>
-                </Popover>
-                <Popover
-                  content="문제를 긍정적으로 바라보고 해결책을 정확히 진단해 내는 능력"
-                  trigger="click"
-                >
-                  <div>
-                    원인분석력
-                    <QuestionCircleOutlined /> {data.causeAnalysisScore}점
-                  </div>
-                </Popover>
-              </div>
-              <br />
-              <div>
-                <Popover
-                  content="소통능력 + 공감능력 + 자아확장력 (성인 평균 67.8점)"
-                  trigger="click"
-                >
-                  <div>
-                    대인 관계 능력
-                    <QuestionCircleOutlined /> {data.interpersonalAbilityScore}점
-                  </div>
-                </Popover>
-                <div>{data.interpersonalAbilityContent}</div>
-                <Popover content="인간관계를 진지하게 맺고 오래도록 유지하는 능력" trigger="click">
-                  <div>
-                    소통능력
-                    <QuestionCircleOutlined /> {data.communicationScore}점
-                  </div>
-                </Popover>
-                <Popover
-                  content="다른 사람의 심리나 감정상태를 잘 읽어낼 수 있는 능력"
-                  trigger="click"
-                >
-                  <div>
-                    공감능력
-                    <QuestionCircleOutlined /> {data.empathyScore}점
-                  </div>
-                </Popover>
-                <Popover
-                  content="자기 자신이 다른 사람과 연결되어 있다고 느끼는 정도"
-                  trigger="click"
-                >
-                  <div>
-                    자아확장력
-                    <QuestionCircleOutlined /> {data.selfExtensionScore}점
-                  </div>
-                </Popover>
-              </div>
-              <br />
-              <div>
-                <Popover
-                  content="자아낙관성 + 생활만족도 + 감사하기 (성인 평균 63.4점)"
-                  trigger="click"
-                >
-                  <div>
-                    긍정성
-                    <QuestionCircleOutlined /> {data.affirmativeScore}점
-                  </div>
-                </Popover>
-                <div>{data.affirmativeContent}</div>
-                <Popover
-                  content="주어진 상황은 언젠간 좋아지리라는 믿음을 지니는 정도"
-                  trigger="click"
-                >
-                  <div>
-                    자아낙관성
-                    <QuestionCircleOutlined /> {data.selfOptimismScore}점
-                  </div>
-                </Popover>
-                <Popover
-                  content="자신이 잘 할 수 있는 일을 통해 즐거움과 성취, 보람을 느끼는 정도"
-                  trigger="click"
-                >
-                  <div>
-                    생활만족도
-                    <QuestionCircleOutlined /> {data.lifeSatisfactionScore}점
-                  </div>
-                </Popover>
-                <Popover
-                  content="매사에 감사하는 마음을 갖는 정도 (긍정심리학의 최상위)"
-                  trigger="click"
-                >
-                  <div>
-                    감사하기
-                    <QuestionCircleOutlined /> {data.appreciationScore}점
-                  </div>
-                </Popover>
-              </div>
+              <CenterBigH3>{data.scoreName}</CenterBigH3>
+              <CenterPaddingP>{data.scoreContent}</CenterPaddingP>
+
+              <Line />
+
+              <Popover
+                content="감정조절력 + 충동통제력 + 원인분석력 (성인 평균 63.5점)"
+                trigger="click"
+              >
+                <CenterH3>
+                  자기 조절 능력 <QuestionCircleOutlined /> {data.selfControlScore}점
+                </CenterH3>
+              </Popover>
+              <Progress
+                format={(percent) => `${Math.round(percent ?? 0)}%`}
+                percent={(data.selfControlScore * 100) / 90}
+                strokeColor={gradientVioletOrange}
+              />
+              <CenterPaddingP>{data.selfControlContent}</CenterPaddingP>
+              <Popover
+                content="압박과 스트레스 상황에서도 평온을 유지할 수 있는 능력"
+                trigger="click"
+              >
+                <div>
+                  감정조절력 <QuestionCircleOutlined /> {data.emotionalControlScore}점
+                </div>
+              </Popover>
+              <Popover content="자신의 동기를 스스로 부여하고 조절할 수 있는 능력" trigger="click">
+                <div>
+                  충동통제력 <QuestionCircleOutlined /> {data.impulseControlScore}점
+                </div>
+              </Popover>
+              <Popover
+                content="문제를 긍정적으로 바라보고 해결책을 정확히 진단해 내는 능력"
+                trigger="click"
+              >
+                <div>
+                  원인분석력 <QuestionCircleOutlined /> {data.causeAnalysisScore}점
+                </div>
+              </Popover>
+
+              <Line />
+
+              <Popover
+                content="소통능력 + 공감능력 + 자아확장력 (성인 평균 67.8점)"
+                trigger="click"
+              >
+                <CenterH3>
+                  대인 관계 능력 <QuestionCircleOutlined /> {data.interpersonalAbilityScore}점
+                </CenterH3>
+              </Popover>
+              <Progress
+                format={(percent) => `${Math.round(percent ?? 0)}%`}
+                percent={(data.interpersonalAbilityScore * 100) / 90}
+                strokeColor={gradientVioletOrange}
+              />
+              <CenterPaddingP>{data.interpersonalAbilityContent}</CenterPaddingP>
+              <Popover content="인간관계를 진지하게 맺고 오래도록 유지하는 능력" trigger="click">
+                <div>
+                  소통능력 <QuestionCircleOutlined /> {data.communicationScore}점
+                </div>
+              </Popover>
+              <Popover
+                content="다른 사람의 심리나 감정상태를 잘 읽어낼 수 있는 능력"
+                trigger="click"
+              >
+                <div>
+                  공감능력 <QuestionCircleOutlined /> {data.empathyScore}점
+                </div>
+              </Popover>
+              <Popover
+                content="자기 자신이 다른 사람과 연결되어 있다고 느끼는 정도"
+                trigger="click"
+              >
+                <div>
+                  자아확장력 <QuestionCircleOutlined /> {data.selfExtensionScore}점
+                </div>
+              </Popover>
+
+              <Line />
+
+              <Popover
+                content="자아낙관성 + 생활만족도 + 감사하기 (성인 평균 63.4점)"
+                trigger="click"
+              >
+                <CenterH3>
+                  긍정성 <QuestionCircleOutlined /> {data.affirmativeScore}점
+                </CenterH3>
+              </Popover>
+              <Progress
+                format={(percent) => `${Math.round(percent ?? 0)}%`}
+                percent={(data.affirmativeScore * 100) / 80}
+                strokeColor={gradientVioletOrange}
+              />
+              <CenterPaddingP>{data.affirmativeContent}</CenterPaddingP>
+              <Popover
+                content="주어진 상황은 언젠간 좋아지리라는 믿음을 지니는 정도"
+                trigger="click"
+              >
+                <div>
+                  자아낙관성
+                  <QuestionCircleOutlined /> {data.selfOptimismScore}점
+                </div>
+              </Popover>
+              <Popover
+                content="자신이 잘 할 수 있는 일을 통해 즐거움과 성취, 보람을 느끼는 정도"
+                trigger="click"
+              >
+                <div>
+                  생활만족도
+                  <QuestionCircleOutlined /> {data.lifeSatisfactionScore}점
+                </div>
+              </Popover>
+              <Popover
+                content="매사에 감사하는 마음을 갖는 정도 (긍정심리학의 최상위)"
+                trigger="click"
+              >
+                <div>
+                  감사하기
+                  <QuestionCircleOutlined /> {data.appreciationScore}점
+                </div>
+              </Popover>
             </>
           ) : error ? (
             '네트워크 요청 오류'
