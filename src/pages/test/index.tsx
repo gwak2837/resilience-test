@@ -63,16 +63,16 @@ function TestPage() {
 
   function goNextQuestion() {
     if (questionNumber < totalQuestionCount) {
-      setQuestionNumber((prev) => prev + 1)
-      if (questionNumber === size - 1) {
-        setSize(size + 1)
+      if (answers[questionNumber - 1].answer !== null) {
+        setQuestionNumber((prev) => prev + 1)
+        if (questionNumber === size - 1) {
+          setSize(size + 1)
+        }
+      } else {
+        toast.warn('문항에 응답해주세요')
       }
     } else if (questionNumber === totalQuestionCount) {
-      if (answers.every((answer) => answer.answer !== null)) {
-        router.push(`/test/result`)
-      } else {
-        toast.warn('문제를 모두 풀어주세요')
-      }
+      router.push(`/test/result`)
     }
   }
 
