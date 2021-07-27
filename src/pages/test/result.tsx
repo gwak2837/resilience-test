@@ -106,7 +106,7 @@ function TestResultPage() {
   function sendKakaoTalkMessage() {
     if (!data) {
       toast.warn('아직 응답 결과가 없습니다.')
-    } else if (window.Kakao?.Link) {
+    } else if (!window.Kakao?.Link) {
       toast.warn('카카오 API 인증에 실패했습니다.')
     } else {
       window.Kakao.Link.sendDefault({
