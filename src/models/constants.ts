@@ -8,7 +8,7 @@ export const HEADER_HEIGHT = '4rem'
 export const PRIMARY_BACKGROUND_COLOR = '#F58282'
 export const PRIMARY_TEXT_COLOR = '#D11919'
 
-export const SECONDARY_BACKGROUND_COLOR = '#8282F5'
+export const SECONDARY_BACKGROUND_COLOR = '#8A8AF4'
 export const SECONDARY_TEXT_COLOR = '#3737F1'
 
 export const BASIC_TEXT_COLOR = '#111'
