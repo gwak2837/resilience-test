@@ -132,6 +132,10 @@ function TestResultPage() {
             process.env.NODE_ENV === 'production'
               ? `https://resilience1.vercel.app/test/result?${encodeURI(JSON.stringify(data))}`
               : `http://localhost:3000/test/result?${encodeURI(JSON.stringify(data))}`,
+          mobileWebUrl:
+            process.env.NODE_ENV === 'production'
+              ? `https://resilience1.vercel.app/test/result?${encodeURI(JSON.stringify(data))}`
+              : `http://localhost:3000/test/result?${encodeURI(JSON.stringify(data))}`,
         },
         buttonTitle: '검사 결과 보기',
       })
